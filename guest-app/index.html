@@ -24,134 +24,12 @@
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js" integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
-    <script src="https://unpkg.com/axios-mock-adapter/dist/axios-mock-adapter.min.js"></script>
     <script src="https://unpkg.com/vue-router/dist/vue-router.js"></script>
     <script type="text/javascript">
-        let mock = new AxiosMockAdapter(axios);
 
-        mock.onGet('/api/menu-items').reply(200, [
-            {
-                item_id: 'e95321ac-f0d5-4009-8420-da8fc17c7731',
-                item_title: 'Food A',
-                item_price: 29.29,
-                item_description: 'Description A',
-                item_type: 'food',
-                item_image: 'https://miro.medium.com/max/699/1*UfV5sxZUkgyUQIyZf8Wzjg.png'
-            },
-            {
-                item_id: 'e95321ac-f0d5-4009-8420-da8fc17c7732',
-                item_title: 'Food B',
-                item_price: 29.29,
-                item_description: 'Description A',
-                item_type: 'food',
-                item_image: 'https://miro.medium.com/max/699/1*UfV5sxZUkgyUQIyZf8Wzjg.png'
-            },
-            {
-                item_id: 'e95321ac-f0d5-4009-8420-da8fc17c7733',
-                item_title: 'Drink C',
-                item_price: 29.29,
-                item_description: 'Description A',
-                item_type: 'drink',
-                item_image: 'https://miro.medium.com/max/699/1*UfV5sxZUkgyUQIyZf8Wzjg.png'
-            },
-            {
-                item_id: 'e95321ac-f0d5-4009-8420-da8fc17c7734',
-                item_title: 'Drink D',
-                item_price: 29.29,
-                item_description: 'Description A',
-                item_type: 'drink',
-                item_image: 'https://miro.medium.com/max/699/1*UfV5sxZUkgyUQIyZf8Wzjg.png'
-            }
-        ]);
+        axios.defaults.baseURL = 'http://localhost:8081/';
 
-        mock.onPost('/api/orders').reply(200, {
-            "order_id": "3e1f8d4c-f9c6-4ba5-92be-ae1467e4ff1f",
-            "table_id": "a589d607-2843-4a35-9e49-753cabef71df",
-            "order_items": [
-                {
-                    order_item_id: 'oi1',
-                    item_id: 'e95321ac-f0d5-4009-8420-da8fc17c7731',
-                    status: 'ordered'
-                },
-                {
-                    order_item_id: 'oi2',
-                    item_id: 'e95321ac-f0d5-4009-8420-da8fc17c7731',
-                    status: 'preparing'
-                },
-                {
-                    order_item_id: 'oi3',
-                    item_id: 'e95321ac-f0d5-4009-8420-da8fc17c7734',
-                    status: 'ready_to_serve'
-                },
-                {
-                    order_item_id: 'oi4',
-                    item_id: 'e95321ac-f0d5-4009-8420-da8fc17c7734',
-                    status: 'delivered'
-                }
-            ]
-        });
-
-        let mockOrders = [
-            {
-                "order_id": "3e1f8d4c-f9c6-4ba5-92be-ae1467e4ff1f",
-                "table_id": "a589d607-2843-4a35-9e49-753cabef71df",
-                "order_items": [
-                    {
-                        order_item_id: 'oi1',
-                        item_id: 'e95321ac-f0d5-4009-8420-da8fc17c7731',
-                        status: 'ordered'
-                    },
-                    {
-                        order_item_id: 'oi2',
-                        item_id: 'e95321ac-f0d5-4009-8420-da8fc17c7731',
-                        status: 'preparing'
-                    },
-                    {
-                        order_item_id: 'oi3',
-                        item_id: 'e95321ac-f0d5-4009-8420-da8fc17c7734',
-                        status: 'ready_to_serve'
-                    },
-                    {
-                        order_item_id: 'oi4',
-                        item_id: 'e95321ac-f0d5-4009-8420-da8fc17c7734',
-                        status: 'delivered'
-                    }
-                ]
-            },
-            {
-                "order_id": "3e1f8d4c-f9c6-4ba5-92be-ae1467e4ff1f",
-                "table_id": "a589d607-2843-4a35-9e49-753cabef71df",
-                "order_items": [
-                    {
-                        order_item_id: 'oi1',
-                        item_id: 'e95321ac-f0d5-4009-8420-da8fc17c7731',
-                        status: 'preparing'
-                    },
-                    {
-                        order_item_id: 'oi2',
-                        item_id: 'e95321ac-f0d5-4009-8420-da8fc17c7731',
-                        status: 'preparing'
-                    },
-                    {
-                        order_item_id: 'oi3',
-                        item_id: 'e95321ac-f0d5-4009-8420-da8fc17c7734',
-                        status: 'delivered'
-                    },
-                    {
-                        order_item_id: 'oi4',
-                        item_id: 'e95321ac-f0d5-4009-8420-da8fc17c7734',
-                        status: 'delivered'
-                    }
-                ]
-            }
-        ];
-
-        mock.onGet('/api/orders/3e1f8d4c-f9c6-4ba5-92be-ae1467e4ff1f').reply(() => {
-            return [
-                200,
-                mockOrders[Math.floor(Math.random() * mockOrders.length)]
-            ];
-        });
+        const axiosClient = axios.default;
 
         class MenuItemService {
 
@@ -177,8 +55,6 @@
                 }
             }
         }
-
-        const axiosClient = axios.default;
 
         class Order {
             constructor(orderId, tableId, orderItems) {

@@ -24,94 +24,10 @@
         <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js" integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV" crossorigin="anonymous"></script>
         <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
-        <script src="https://unpkg.com/axios-mock-adapter/dist/axios-mock-adapter.min.js"></script>
         <script src="https://unpkg.com/vue-router/dist/vue-router.js"></script>
 
         <script type="text/javascript">
-            let mock = new AxiosMockAdapter(axios);
-
-            mock.onPost('/api/login').reply(200, {'bearer_token': 'test_token'});
-
-            mock.onGet('/api/menu-items').reply(200, [
-                {
-                    item_id: 'e95321ac-f0d5-4009-8420-da8fc17c7731',
-                    item_title: 'Food A',
-                    item_price: 29.29,
-                    item_description: 'Description A',
-                    item_type: 'food',
-                    item_image: 'https://miro.medium.com/max/699/1*UfV5sxZUkgyUQIyZf8Wzjg.png'
-                },
-                {
-                    item_id: 'e95321ac-f0d5-4009-8420-da8fc17c7732',
-                    item_title: 'Food B',
-                    item_price: 29.29,
-                    item_description: 'Description A',
-                    item_type: 'food',
-                    item_image: 'https://miro.medium.com/max/699/1*UfV5sxZUkgyUQIyZf8Wzjg.png'
-                },
-                {
-                    item_id: 'e95321ac-f0d5-4009-8420-da8fc17c7733',
-                    item_title: 'Drink C',
-                    item_price: 29.29,
-                    item_description: 'Description A',
-                    item_type: 'drink',
-                    item_image: 'https://miro.medium.com/max/699/1*UfV5sxZUkgyUQIyZf8Wzjg.png'
-                },
-                {
-                    item_id: 'e95321ac-f0d5-4009-8420-da8fc17c7734',
-                    item_title: 'Drink D',
-                    item_price: 29.29,
-                    item_description: 'Description A',
-                    item_type: 'drink',
-                    item_image: 'https://miro.medium.com/max/699/1*UfV5sxZUkgyUQIyZf8Wzjg.png'
-                }
-            ]);
-
-            mock.onGet('/api/orders?has_unfinished_items=true').reply(200, [
-                {
-                    order_id: 'order-1',
-                    table_id: 'table-1',
-                    order_items: [
-                        { order_item_id: 'o_i_1', item_id: 'e95321ac-f0d5-4009-8420-da8fc17c7731', status: 'ordered' },
-                        { order_item_id: 'o_i_2', item_id: 'e95321ac-f0d5-4009-8420-da8fc17c7732', status: 'ordered' },
-                        { order_item_id: 'o_i_3', item_id: 'e95321ac-f0d5-4009-8420-da8fc17c7733', status: 'preparing' },
-                        { order_item_id: 'o_i_4', item_id: 'e95321ac-f0d5-4009-8420-da8fc17c7732', status: 'ready_to_serve' },
-                    ]
-                },
-                {
-                    order_id: 'order-2',
-                    table_id: 'table-2',
-                    order_items: [
-                        { order_item_id: 'o_i_4', item_id: 'e95321ac-f0d5-4009-8420-da8fc17c7734', status: 'ordered' },
-                        { order_item_id: 'o_i_5', item_id: 'e95321ac-f0d5-4009-8420-da8fc17c7734', status: 'ordered' },
-                        { order_item_id: 'o_i_6', item_id: 'e95321ac-f0d5-4009-8420-da8fc17c7734', status: 'preparing' },
-                        { order_item_id: 'o_i_7', item_id: 'e95321ac-f0d5-4009-8420-da8fc17c7732', status: 'preparing' },
-                        { order_item_id: 'o_i_8', item_id: 'e95321ac-f0d5-4009-8420-da8fc17c7732', status: 'ready_to_serve' },
-                    ]
-                }
-            ]);
-
-            mock.onPut('/api/order-items/o_i_1').reply(200, {
-                order_item_id: 'o_i_1', 
-                item_id: 'e95321ac-f0d5-4009-8420-da8fc17c7731', 
-                status: 'preparing'
-            });
-            mock.onPut('/api/order-items/o_i_2').reply(200, {
-                order_item_id: 'o_i_2', 
-                item_id: 'e95321ac-f0d5-4009-8420-da8fc17c7732', 
-                status: 'preparing'
-            });
-            mock.onPut('/api/order-items/o_i_3').reply(200, {
-                order_item_id: 'o_i_3', 
-                item_id: 'e95321ac-f0d5-4009-8420-da8fc17c7733', 
-                status: 'ready_to_serve'
-            });
-            mock.onPut('/api/order-items/o_i_7').reply(200, {
-                order_item_id: 'o_i_3', 
-                item_id: 'e95321ac-f0d5-4009-8420-da8fc17c7732', 
-                status: 'ready_to_serve'
-            });
-            
+            axios.defaults.baseURL = 'http://localhost:8082/';
 
             const axiosClient = axios.default;
 
@@ -315,7 +231,7 @@
                     return {
                         username: this.username || null,
                         role: this.role || null,
-                        loggedIn: this.username && this.role
+                        loggedIn: false
                     };
                 },
                 template: `
@@ -335,16 +251,19 @@
                 methods: {
                     login: function() {
                         if (!this.username || !this.role) return;
-                        
-                        if (userService.login(this.username, this.role)) {
-                            console.log('Successfully logged in.');
-                            this.loggedIn = true;
 
-                            this.$router.push(this.role);
-                        } else {
-                            console.log('Failed to log in.');
-                            this.isLoggedIn = false;
-                        }
+                        userService.login(this.username, this.role)
+                        .then((success) => {
+                            if (success) {
+                                console.log('Successfully logged in.');
+                                this.loggedIn = true;
+
+                                this.$router.push(this.role);
+                            } else {
+                                console.log('Failed to log in.');
+                                this.isLoggedIn = false;
+                            }
+                        });
                     }
                 }
             };
