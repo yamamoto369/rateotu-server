@@ -1,0 +1,557 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
+        <title>Restaurant at the End of the Universe - Staff</title>
+    </head>
+    <body>
+        <div class="container" id="app">
+            <div class="row">
+                <div class="col-sm-12">
+                    <h5>Restaurant at the End of the Universe - Staff</h5>
+                    <p>Don't panic and always carry a towel</p>
+                </div>
+            </div>
+            <div class="row">
+                <router-view></router-view>
+            </div>
+        </div>
+
+        <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+        <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js" integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js" integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV" crossorigin="anonymous"></script>
+        <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+        <script src="https://unpkg.com/axios-mock-adapter/dist/axios-mock-adapter.min.js"></script>
+        <script src="https://unpkg.com/vue-router/dist/vue-router.js"></script>
+
+        <script type="text/javascript">
+            let mock = new AxiosMockAdapter(axios);
+
+            mock.onPost('/api/login').reply(200, {'bearer_token': 'test_token'});
+
+            mock.onGet('/api/menu-items').reply(200, [
+                {
+                    item_id: 'e95321ac-f0d5-4009-8420-da8fc17c7731',
+                    item_title: 'Food A',
+                    item_price: 29.29,
+                    item_description: 'Description A',
+                    item_type: 'food',
+                    item_image: 'https://miro.medium.com/max/699/1*UfV5sxZUkgyUQIyZf8Wzjg.png'
+                },
+                {
+                    item_id: 'e95321ac-f0d5-4009-8420-da8fc17c7732',
+                    item_title: 'Food B',
+                    item_price: 29.29,
+                    item_description: 'Description A',
+                    item_type: 'food',
+                    item_image: 'https://miro.medium.com/max/699/1*UfV5sxZUkgyUQIyZf8Wzjg.png'
+                },
+                {
+                    item_id: 'e95321ac-f0d5-4009-8420-da8fc17c7733',
+                    item_title: 'Drink C',
+                    item_price: 29.29,
+                    item_description: 'Description A',
+                    item_type: 'drink',
+                    item_image: 'https://miro.medium.com/max/699/1*UfV5sxZUkgyUQIyZf8Wzjg.png'
+                },
+                {
+                    item_id: 'e95321ac-f0d5-4009-8420-da8fc17c7734',
+                    item_title: 'Drink D',
+                    item_price: 29.29,
+                    item_description: 'Description A',
+                    item_type: 'drink',
+                    item_image: 'https://miro.medium.com/max/699/1*UfV5sxZUkgyUQIyZf8Wzjg.png'
+                }
+            ]);
+
+            mock.onGet('/api/orders?has_unfinished_items=true').reply(200, [
+                {
+                    order_id: 'order-1',
+                    table_id: 'table-1',
+                    order_items: [
+                        { order_item_id: 'o_i_1', item_id: 'e95321ac-f0d5-4009-8420-da8fc17c7731', status: 'ordered' },
+                        { order_item_id: 'o_i_2', item_id: 'e95321ac-f0d5-4009-8420-da8fc17c7732', status: 'ordered' },
+                        { order_item_id: 'o_i_3', item_id: 'e95321ac-f0d5-4009-8420-da8fc17c7733', status: 'preparing' },
+                        { order_item_id: 'o_i_4', item_id: 'e95321ac-f0d5-4009-8420-da8fc17c7732', status: 'ready_to_serve' },
+                    ]
+                },
+                {
+                    order_id: 'order-2',
+                    table_id: 'table-2',
+                    order_items: [
+                        { order_item_id: 'o_i_4', item_id: 'e95321ac-f0d5-4009-8420-da8fc17c7734', status: 'ordered' },
+                        { order_item_id: 'o_i_5', item_id: 'e95321ac-f0d5-4009-8420-da8fc17c7734', status: 'ordered' },
+                        { order_item_id: 'o_i_6', item_id: 'e95321ac-f0d5-4009-8420-da8fc17c7734', status: 'preparing' },
+                        { order_item_id: 'o_i_7', item_id: 'e95321ac-f0d5-4009-8420-da8fc17c7732', status: 'preparing' },
+                        { order_item_id: 'o_i_8', item_id: 'e95321ac-f0d5-4009-8420-da8fc17c7732', status: 'ready_to_serve' },
+                    ]
+                }
+            ]);
+
+            mock.onPut('/api/order-items/o_i_1').reply(200, {
+                order_item_id: 'o_i_1', 
+                item_id: 'e95321ac-f0d5-4009-8420-da8fc17c7731', 
+                status: 'preparing'
+            });
+            mock.onPut('/api/order-items/o_i_2').reply(200, {
+                order_item_id: 'o_i_2', 
+                item_id: 'e95321ac-f0d5-4009-8420-da8fc17c7732', 
+                status: 'preparing'
+            });
+            mock.onPut('/api/order-items/o_i_3').reply(200, {
+                order_item_id: 'o_i_3', 
+                item_id: 'e95321ac-f0d5-4009-8420-da8fc17c7733', 
+                status: 'ready_to_serve'
+            });
+            mock.onPut('/api/order-items/o_i_7').reply(200, {
+                order_item_id: 'o_i_3', 
+                item_id: 'e95321ac-f0d5-4009-8420-da8fc17c7732', 
+                status: 'ready_to_serve'
+            });
+            
+
+            const axiosClient = axios.default;
+
+            class Order {
+                constructor(orderId, tableId, orderItems) {
+                    this.orderId = orderId;
+                    this.tableId = tableId;
+                    this.orderItems = orderItems;
+                }
+
+                toData() {
+                    return {
+                        'order_id': this.orderId,
+                        'table_id': this.tableId,
+                        'order_items': this.orderItems.map(i => i.toData())
+                    };
+                }
+
+                static fromData(data) {
+                    let items = [];
+                    
+                    if ('order_items' in data) {
+                        items = data['order_items'].map(OrderItem.fromData);
+                    }
+
+                    return new Order(
+                        data['order_id'],
+                        data['table_id'],
+                        items
+                    );
+                }
+
+                static attachMenuItems(order, menuItems) {
+                    let menuItemsMap = {};
+
+                    menuItems.forEach((menuItem) => {
+                        menuItemsMap[menuItem.itemId] = menuItem;
+                    });
+                    
+                    order.orderItems.forEach((orderItem) => {
+                        orderItem.menuItem = menuItemsMap[orderItem.itemId];
+                    });
+                }
+            }
+
+            class OrderItem {
+                constructor(orderItemId, itemId, status) {
+                    this.orderItemId = orderItemId;
+                    this.itemId = itemId;
+                    this.status = status;
+                }
+
+                toData() {
+                    return {
+                        'order_item_id': this.order_item_id,
+                        'item_id': this.order_id,
+                        'status': this.status
+                    };
+                }
+
+                static fromData(data) {
+                    return new OrderItem(
+                        data['order_item_id'],
+                        data['item_id'],
+                        data['status']
+                    );
+                }
+            }
+
+            class MenuItem {
+                constructor(itemId, itemTitle, itemPrice, itemDescription, itemType, itemImage) {
+                    this.itemId = itemId;
+                    this.itemTitle = itemTitle;
+                    this.itemPrice = itemPrice;
+                    this.itemDescription = itemDescription;
+                    this.itemType = itemType;
+                    this.itemImage = itemImage;
+                }
+
+                static fromData(data) {
+                    return new MenuItem(
+                        data.item_id,
+                        data.item_title,
+                        data.item_price,
+                        data.item_description,
+                        data.item_type,
+                        data.item_image
+                    );
+                }
+            }
+
+            class UserService {
+
+                constructor() {
+                    this.isLoggedIn = false;
+                }
+
+                async login(username, role) {
+                    try {
+                        let response = await axiosClient.post('/api/login', {
+                            username: username,
+                            role: role
+                        });
+
+                        if (response.status == 200) {
+                            this.isLoggedIn = true;
+                            axiosClient.defaults.headers.common['Authorization'] = `Bearer ${response.data['bearer_token']}`;
+                        } else {
+                            this.isLoggedIn = false;
+                            delete axiosClient.defaults.headers.common['Authorization'];
+                        }
+                        
+                        return true;
+                    } catch (err) {
+                        console.log('Error while logging into system', err);
+                        this.isLoggedIn = false;
+                        delete axiosClient.defaults.headers.common['Authorization'];
+
+                        return false;
+                    }
+                }                    
+            }
+
+            class MenuItemService {
+
+                async fetchMenuItems() {
+                    try {
+                        const response = await axiosClient.get('/api/menu-items');
+                        return response.data.map(MenuItem.fromData);
+                    } catch (err) {
+                        console.log('Error fetching menu items', err);
+                    }
+                }
+            }
+
+            class OrderService {
+
+                async getUnfinishedOrders() {
+                    try {
+                        const response = await axiosClient.get('/api/orders?has_unfinished_items=true');
+                        return response.data.map(Order.fromData);
+                    } catch (err) {
+                        console.log('There was an error fetching unfinished orders', err);
+                        return [];
+                    }
+                }
+
+                static filterByUnfinishedItemType(orders, type) {
+                    return orders.filter((order) => {
+                        return order.orderItems.some((orderItem) => {
+                            return orderItem.menuItem.itemType == type && (orderItem.status == 'ordered' || orderItem.status == 'preparing');
+                        });
+                    });
+                }
+
+                static filterReadyToServe(orders, type) {
+                    return orders.filter((order) => {
+                        return order.orderItems.some((orderItem) => {
+                            return orderItem.status == 'ready_to_serve';
+                        });
+                    });
+                }
+            }
+
+            class OrderItemService {
+
+                async markAsPreparing(orderItem) {
+                    orderItem.status = 'preparing';
+                    this.update(orderItem);
+                }
+
+                async markAsReadyToServe(orderItem) {
+                    orderItem.status = 'ready_to_serve';
+                    this.update(orderItem);
+                }
+
+                async markAsDelivered(orderItem) {
+                    orderItem.status = 'delivered';
+                    this.update(orderItem);
+                }
+
+                async update(orderItem) {
+                    let response = await axiosClient.put(`/api/order-items/${orderItem.orderItemId}`, orderItem);
+                }
+
+                static appendMenuItem(orderItem, menuItemsMap) {
+                    const menuItem = menuItemsMap[orderItem.itemId];
+                    orderItem.menuItem = menuItem;
+
+                    return orderItem;
+                }
+            }
+
+            let userService = new UserService();
+            let orderService = new OrderService();
+            let orderItemService = new OrderItemService();
+            let menuItemService = new MenuItemService();
+
+            const LoginForm = {
+                data: function() {
+                    return {
+                        username: this.username || null,
+                        role: this.role || null,
+                        loggedIn: this.username && this.role
+                    };
+                },
+                template: `
+                    <div class="input-group mb-3">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text" id="basic-addon1">@</span>
+                        </div>
+                        <input v-model="username" type="text" class="form-control" placeholder="Username" aria-label="Username" aria-describedby="basic-addon1">
+                        <select v-model="role" class="custom-select">
+                            <option value="chef">Chef</option>
+                            <option value="barman">Barman</option>
+                            <option value="waiter">Waiter</option>
+                        </select>
+                        <button v-bind:disabled="loggedIn" v-on:click="login()" class="form-control btn-primary">Login</button>
+                    </div>
+                `,
+                methods: {
+                    login: function() {
+                        if (!this.username || !this.role) return;
+                        
+                        if (userService.login(this.username, this.role)) {
+                            console.log('Successfully logged in.');
+                            this.loggedIn = true;
+
+                            this.$router.push(this.role);
+                        } else {
+                            console.log('Failed to log in.');
+                            this.isLoggedIn = false;
+                        }
+                    }
+                }
+            };
+
+            const Chef = {
+                data() {
+                    return { 
+                        orders: [],
+                        menuItems: {}
+                    };
+                },
+                created() {
+                    this.loadMenuItems().then(this.fetchUnfinishedOrders);
+
+                    setInterval(this.fetchUnfinishedOrders, 5000);
+                },
+                template: `
+                    <div class="w-100">
+                        <div class="col-sm-12">
+                            <h2>The kitchen</h2>
+                        </div>
+                        <div class="card w-100" v-if="orders" v-for="order in orders">
+                            <div class="card-header">
+                                Order in work ({{ order.orderId }})
+                            </div>
+                            <div class="card-body">
+                                <ul id="stock" class="list-group list-group-flush">
+                                    <li v-for="orderItem in order.orderItems" class="list-group-item" v-if="orderItem.menuItem.itemType == 'food' && (orderItem.status === 'ordered' || orderItem.status === 'preparing')">
+                                        <p>{{ orderItem.menuItem.itemTitle }}</p>
+
+                                        <button v-if="orderItem.status === 'ordered'" class="form-control btn-primary" v-on:click="markItemAsPreparing(orderItem)">Start preparing</button>
+                                        <button v-if="orderItem.status === 'preparing'" class="form-control btn-primary" v-on:click="markItemAsReadyToServe(orderItem)">Prepared!</button>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                `,
+                methods: {
+                    markItemAsPreparing(orderItem) {
+                        orderItemService.markAsPreparing(orderItem);
+                        this.fetchUnfinishedOrders();
+                    },
+                    markItemAsReadyToServe(orderItem) {
+                        orderItemService.markAsPreparing(orderItem);
+                        this.fetchUnfinishedOrders();
+                    },
+                    loadMenuItems() {
+                        let p = new Promise((resolve, reject) => {
+                            menuItemService.fetchMenuItems().then((menuItems) => {
+                                this.menuItems = menuItems;
+                                resolve(menuItems);
+                            });
+                        });
+
+                        return p;
+                    },
+                    fetchUnfinishedOrders() {
+                        orderService.getUnfinishedOrders().then((orders) => {
+                            orders.forEach(o => Order.attachMenuItems(o, this.menuItems));
+                            orders = OrderService.filterByUnfinishedItemType(orders, 'food');
+
+                            this.orders = orders;
+                            console.log('Unfinished order list refreshed.');
+                        });
+                    },
+                }
+            };
+
+            const Barman = {
+                data() {
+                    return { 
+                        orders: [],
+                        menuItems: {}
+                    };
+                },
+                created() {
+                    this.loadMenuItems().then(this.fetchUnfinishedOrders);
+
+                    setInterval(this.fetchUnfinishedOrders, 5000);
+                },
+                template: `
+                    <div class="w-100">
+                        <div class="col-sm-12">
+                            <h2>The bar</h2>
+                        </div>
+                        <div class="card w-100" v-if="orders" v-for="order in orders">
+                            <div class="card-header">
+                                Order in work ({{ order.orderId }})
+                            </div>
+                            <div class="card-body">
+                                <ul id="stock" class="list-group list-group-flush">
+                                    <li v-for="orderItem in order.orderItems" class="list-group-item" v-if="orderItem.menuItem.itemType == 'drink' && (orderItem.status === 'ordered' || orderItem.status === 'preparing')">
+                                        <p>{{ orderItem.menuItem.itemTitle }}</p>
+
+                                        <button v-if="orderItem.status === 'ordered'" class="form-control btn-primary" v-on:click="markItemAsPreparing(orderItem)">Start preparing</button>
+                                        <button v-if="orderItem.status === 'preparing'" class="form-control btn-primary" v-on:click="markItemAsReadyToServe(orderItem)">Prepared!</button>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                `,
+                methods: {
+                    markItemAsPreparing(orderItem) {
+                        orderItemService.markAsPreparing(orderItem);
+                        this.fetchUnfinishedOrders();
+                    },
+                    markItemAsReadyToServe(orderItem) {
+                        orderItemService.markAsPreparing(orderItem);
+                        this.fetchUnfinishedOrders();
+                    },
+                    loadMenuItems() {
+                        let p = new Promise((resolve, reject) => {
+                            menuItemService.fetchMenuItems().then((menuItems) => {
+                                this.menuItems = menuItems;
+                                resolve(menuItems);
+                            });
+                        });
+
+                        return p;
+                    },
+                    fetchUnfinishedOrders() {
+                        orderService.getUnfinishedOrders().then((orders) => {
+                            orders.forEach(o => Order.attachMenuItems(o, this.menuItems));
+                            orders = OrderService.filterByUnfinishedItemType(orders, 'drink');
+
+                            this.orders = orders;
+                            console.log('Unfinished order list refreshed.');
+                        });
+                    },
+                }
+            };
+
+            const Waiter = {
+                data() {
+                    return { 
+                        orders: [],
+                        menuItems: {}
+                    };
+                },
+                created() {
+                    this.loadMenuItems().then(this.fetchUnfinishedOrders);
+
+                    setInterval(this.fetchUnfinishedOrders, 5000);
+                },
+                template: `
+                    <div class="w-100">
+                        <div class="col-sm-12">
+                            <h2>Waiter</h2>
+                        </div>
+                        <div class="card w-100" v-if="orders" v-for="order in orders">
+                            <div class="card-header">
+                                Order in work ({{ order.orderId }})
+                            </div>
+                            <div class="card-body">
+                                <ul id="stock" class="list-group list-group-flush">
+                                    <li v-for="orderItem in order.orderItems" class="list-group-item" v-if="orderItem.status === 'ready_to_serve'">
+                                        <p>{{ orderItem.menuItem.itemTitle }}</p>
+
+                                        <button class="form-control btn-primary" v-on:click="markItemAsDelivered(orderItem)">Delivered</button>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                `,
+                methods: {
+                    markItemAsDelivered(orderItem) {
+                        orderItemService.markAsDelivered(orderItem);
+                        this.fetchUnfinishedOrders();
+                    },
+                    loadMenuItems() {
+                        let p = new Promise((resolve, reject) => {
+                            menuItemService.fetchMenuItems().then((menuItems) => {
+                                this.menuItems = menuItems;
+                                resolve(menuItems);
+                            });
+                        });
+
+                        return p;
+                    },
+                    fetchUnfinishedOrders() {
+                        orderService.getUnfinishedOrders().then((orders) => {
+                            orders.forEach(o => Order.attachMenuItems(o, this.menuItems));
+                            orders = OrderService.filterReadyToServe(orders);
+
+                            this.orders = orders;
+                            console.log('Unfinished order list refreshed.');
+                        });
+                    },
+                }
+            };
+
+            const routes = [
+                { path: '/', component: LoginForm },
+                { path: '/chef', component: Chef },
+                { path: '/barman', component: Barman },
+                { path: '/waiter', component: Waiter },
+            ];
+
+            const router = new VueRouter({ routes });
+
+            app = new Vue({
+                el: '#app',
+                router
+            });
+        </script>
+    </body>
+</html>

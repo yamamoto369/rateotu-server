@@ -1,0 +1,431 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
+    <title>Restaurant at the End of the Universe</title>
+  </head>
+  <body>
+    <div class="container" id="app">
+        <div class="row">
+            <div class="col-sm">
+                <h1>The Restaurant at the End of the Universe</h1>
+                <p><router-link to="/">So long, and thanks for all the fish!</router-link></p>
+            </div>
+        </div>
+        <div class="row">
+          <router-view></router-view>
+        </div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js" integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js" integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <script src="https://unpkg.com/axios-mock-adapter/dist/axios-mock-adapter.min.js"></script>
+    <script src="https://unpkg.com/vue-router/dist/vue-router.js"></script>
+    <script type="text/javascript">
+        let mock = new AxiosMockAdapter(axios);
+
+        mock.onGet('/api/menu-items').reply(200, [
+            {
+                item_id: 'e95321ac-f0d5-4009-8420-da8fc17c7731',
+                item_title: 'Food A',
+                item_price: 29.29,
+                item_description: 'Description A',
+                item_type: 'food',
+                item_image: 'https://miro.medium.com/max/699/1*UfV5sxZUkgyUQIyZf8Wzjg.png'
+            },
+            {
+                item_id: 'e95321ac-f0d5-4009-8420-da8fc17c7732',
+                item_title: 'Food B',
+                item_price: 29.29,
+                item_description: 'Description A',
+                item_type: 'food',
+                item_image: 'https://miro.medium.com/max/699/1*UfV5sxZUkgyUQIyZf8Wzjg.png'
+            },
+            {
+                item_id: 'e95321ac-f0d5-4009-8420-da8fc17c7733',
+                item_title: 'Drink C',
+                item_price: 29.29,
+                item_description: 'Description A',
+                item_type: 'drink',
+                item_image: 'https://miro.medium.com/max/699/1*UfV5sxZUkgyUQIyZf8Wzjg.png'
+            },
+            {
+                item_id: 'e95321ac-f0d5-4009-8420-da8fc17c7734',
+                item_title: 'Drink D',
+                item_price: 29.29,
+                item_description: 'Description A',
+                item_type: 'drink',
+                item_image: 'https://miro.medium.com/max/699/1*UfV5sxZUkgyUQIyZf8Wzjg.png'
+            }
+        ]);
+
+        mock.onPost('/api/orders').reply(200, {
+            "order_id": "3e1f8d4c-f9c6-4ba5-92be-ae1467e4ff1f",
+            "table_id": "a589d607-2843-4a35-9e49-753cabef71df",
+            "order_items": [
+                {
+                    order_item_id: 'oi1',
+                    item_id: 'e95321ac-f0d5-4009-8420-da8fc17c7731',
+                    status: 'ordered'
+                },
+                {
+                    order_item_id: 'oi2',
+                    item_id: 'e95321ac-f0d5-4009-8420-da8fc17c7731',
+                    status: 'preparing'
+                },
+                {
+                    order_item_id: 'oi3',
+                    item_id: 'e95321ac-f0d5-4009-8420-da8fc17c7734',
+                    status: 'ready_to_serve'
+                },
+                {
+                    order_item_id: 'oi4',
+                    item_id: 'e95321ac-f0d5-4009-8420-da8fc17c7734',
+                    status: 'delivered'
+                }
+            ]
+        });
+
+        let mockOrders = [
+            {
+                "order_id": "3e1f8d4c-f9c6-4ba5-92be-ae1467e4ff1f",
+                "table_id": "a589d607-2843-4a35-9e49-753cabef71df",
+                "order_items": [
+                    {
+                        order_item_id: 'oi1',
+                        item_id: 'e95321ac-f0d5-4009-8420-da8fc17c7731',
+                        status: 'ordered'
+                    },
+                    {
+                        order_item_id: 'oi2',
+                        item_id: 'e95321ac-f0d5-4009-8420-da8fc17c7731',
+                        status: 'preparing'
+                    },
+                    {
+                        order_item_id: 'oi3',
+                        item_id: 'e95321ac-f0d5-4009-8420-da8fc17c7734',
+                        status: 'ready_to_serve'
+                    },
+                    {
+                        order_item_id: 'oi4',
+                        item_id: 'e95321ac-f0d5-4009-8420-da8fc17c7734',
+                        status: 'delivered'
+                    }
+                ]
+            },
+            {
+                "order_id": "3e1f8d4c-f9c6-4ba5-92be-ae1467e4ff1f",
+                "table_id": "a589d607-2843-4a35-9e49-753cabef71df",
+                "order_items": [
+                    {
+                        order_item_id: 'oi1',
+                        item_id: 'e95321ac-f0d5-4009-8420-da8fc17c7731',
+                        status: 'preparing'
+                    },
+                    {
+                        order_item_id: 'oi2',
+                        item_id: 'e95321ac-f0d5-4009-8420-da8fc17c7731',
+                        status: 'preparing'
+                    },
+                    {
+                        order_item_id: 'oi3',
+                        item_id: 'e95321ac-f0d5-4009-8420-da8fc17c7734',
+                        status: 'delivered'
+                    },
+                    {
+                        order_item_id: 'oi4',
+                        item_id: 'e95321ac-f0d5-4009-8420-da8fc17c7734',
+                        status: 'delivered'
+                    }
+                ]
+            }
+        ];
+
+        mock.onGet('/api/orders/3e1f8d4c-f9c6-4ba5-92be-ae1467e4ff1f').reply(() => {
+            return [
+                200,
+                mockOrders[Math.floor(Math.random() * mockOrders.length)]
+            ];
+        });
+
+        class MenuItemService {
+
+            async fetchMenuItems() {
+                try {
+                    const response = await axiosClient.get('/api/menu-items');
+                    return response.data.map(MenuItem.fromData);
+                } catch (err) {
+                    console.log('Error fetching menu items', err);
+                }
+            }
+        }
+
+        class OrderService {
+
+            async getOrder(orderId) {
+                try {
+                    const response = await axiosClient.get(`/api/orders/${orderId}`);
+                    return Order.fromData(response.data);
+                } catch (err) {
+                    console.log('There was an error an order', err);
+                    return [];
+                }
+            }
+        }
+
+        const axiosClient = axios.default;
+
+        class Order {
+            constructor(orderId, tableId, orderItems) {
+                this.orderId = orderId;
+                this.tableId = tableId;
+                this.orderItems = orderItems;
+            }
+
+            toData() {
+                return {
+                    'order_id': this.orderId,
+                    'table_id': this.tableId,
+                    'order_items': this.orderItems.map(i => i.toData())
+                };
+            }
+
+            static fromData(data) {
+                let items = [];
+                
+                if ('order_items' in data) {
+                    items = data['order_items'].map(OrderItem.fromData);
+                }
+
+                return new Order(
+                    data['order_id'],
+                    data['table_id'],
+                    items
+                );
+            }
+
+            static attachMenuItems(order, menuItems) {
+                let menuItemsMap = {};
+
+                menuItems.forEach((menuItem) => {
+                    menuItemsMap[menuItem.itemId] = menuItem;
+                });
+                
+                order.orderItems.forEach((orderItem) => {
+                    orderItem.menuItem = menuItemsMap[orderItem.itemId];
+                });
+            }
+        }
+
+        class OrderItem {
+            constructor(orderItemId, itemId, status) {
+                this.orderItemId = orderItemId;
+                this.itemId = itemId;
+                this.status = status;
+            }
+
+            toData() {
+                return {
+                    'order_item_id': this.order_item_id,
+                    'item_id': this.order_id,
+                    'status': this.status
+                };
+            }
+
+            static fromData(data) {
+                return new OrderItem(
+                    data['order_item_id'],
+                    data['item_id'],
+                    data['status']
+                );
+            }
+        }
+
+        class MenuItem {
+            constructor(itemId, itemTitle, itemPrice, itemDescription, itemType, itemImage) {
+                this.itemId = itemId;
+                this.itemTitle = itemTitle;
+                this.itemPrice = itemPrice;
+                this.itemDescription = itemDescription;
+                this.itemType = itemType;
+                this.itemImage = itemImage;
+            }
+
+            static fromData(data) {
+                return new MenuItem(
+                    data.item_id,
+                    data.item_title,
+                    data.item_price,
+                    data.item_description,
+                    data.item_type,
+                    data.item_image
+                );
+            }
+        }
+
+        let menuItemService = new MenuItemService();
+        let orderService = new OrderService();
+
+        Vue.component('menu-item', {
+            props: ['item'],
+            data() {
+                return {
+                    qty: 0
+                };
+            },
+            template: `
+                <div class="card w-50">
+                    <img class="card-img-top" v-bind:src="item.itemImage">
+                    <div class="card-body">
+                        <h5 class="card-title">{{ item.itemTitle }}</h5>
+                        <div class="input-group">
+                            <input class="form-control" v-model="qty" type="number" min="0" max="10">
+                            <div class="input-group-append">
+                                <button v-on:click="add()" class="form-control btn-primary" type="button">Add</button>    
+                            </div>
+                        </div>
+                    </div>
+                </div>    
+            `,
+            methods: {
+                add() {
+                    this.$emit('add', this.item, this.qty);
+                    this.qty = 0;
+                }
+            }
+        });
+
+        const Quote = {
+            data() {
+                return {
+                    menuItems: [],
+                    cart: {}
+                };
+            },
+            created() {
+                this.loadMenuItems();
+            },
+            methods: {
+                loadMenuItems() {
+                    let p = new Promise((resolve, reject) => {
+                        menuItemService.fetchMenuItems().then((menuItems) => {
+                            this.menuItems = menuItems;
+                            resolve(menuItems);
+                        });
+                    });
+
+                    return p;
+                },
+                addToCart(menuItem, qty) {
+                    let cartItem = this.cart[menuItem.itemId] || {menuItem: menuItem, qty: 0};
+                    cartItem.qty += parseInt(qty);
+
+                    this.$set(this.cart, menuItem.itemId, cartItem);
+                },
+                submit () {
+                    let itemsPayload = Object.keys(this.cart).map((cartItemId) => {
+                        return {
+                            item_id: cartItemId,
+                            quantity: this.cart[cartItemId].qty
+                        };
+                    });
+
+                    axios.post('/api/orders', {
+                        table_id: 'test-table',
+                        items: itemsPayload
+                    })
+                    .then((response) => {
+                        let order = Order.fromData(response.data);
+                        this.$router.push({ path: `/order/${order.orderId}` });
+                    });
+                }
+            },
+            template: `
+            <div>
+                <div class="card-deck col-sm-12">
+                    <menu-item 
+                        v-for="menuItem in menuItems" 
+                        v-bind:item="menuItem"
+                        v-on:add="addToCart"
+                    >
+                    </menu-item>
+                </div>
+                <hr>
+                <div class="col-sm-12 mt-l mb-l">
+                    <h2>Cart</h2>
+                    <ul>
+                        <li v-for="cartItem in cart">{{ cartItem.qty }} x {{ cartItem.menuItem.itemTitle }}</li>
+                    </ul>
+                    <button v-if="Object.keys(cart).length > 0" v-on:click="submit()" class="form-control btn-primary">Submit order</button>
+                    <p v-if="Object.keys(cart).length == 0">Your cart is empty.</p>
+                </div>
+            </div>
+            `
+        };
+
+        const OrderStatus = {
+            props: ['id'],
+            data() {
+                return {
+                    menuItems: [],
+                    order: null
+                };
+            },
+            created() {
+                menuItemService.fetchMenuItems().then((menuItems) => {
+                    this.menuItems = menuItems;
+                    this.loadOrder();
+                    
+                    setInterval(() => { 
+                        this.loadOrder(); 
+                    }, 5000);
+                });
+            },
+            methods: {
+                loadOrder() {
+                    let order = orderService.getOrder(this.id).then((order) => {
+                        Order.attachMenuItems(order, this.menuItems);
+                        this.order = order;
+                        console.log('Order loaded');
+                    });
+                }
+            },
+            template: `
+                <div>
+                    <h2 v-if="order">Order #{{ order.orderId }}</h2>
+
+                    <div class="card-deck" v-if="order">
+                        <div v-for="orderItem in order.orderItems" class="card">
+                            <img class="card-img-top" v-bind:src="orderItem.menuItem.itemImage">
+                            <div class="card-body">
+                                <h5 class="card-title">{{ orderItem.menuItem.itemTitle }}</h5>
+                                <span class="badge badge-secondary" v-if="orderItem.status === 'ordered'">Ordered</span>
+                                <span class="badge badge-primary" v-if="orderItem.status === 'preparing'">Preparing</span>
+                                <span class="badge badge-warning" v-if="orderItem.status === 'ready_to_serve'">Ready to serve</span>
+                                <span class="badge badge-success" v-if="orderItem.status === 'delivered'">Delivered</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `
+        };
+
+        const routes = [
+            { path: '/', component: Quote },
+            { path: '/order/:id', component: OrderStatus, props: true },
+        ];
+
+        const router = new VueRouter({ routes });
+
+        const app = new Vue({
+            el: '#app',
+            router
+        });
+    </script>
+  </body>
+</html>
