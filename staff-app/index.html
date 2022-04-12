@@ -310,7 +310,7 @@
                         this.fetchUnfinishedOrders();
                     },
                     markItemAsReadyToServe(orderItem) {
-                        orderItemService.markAsPreparing(orderItem);
+                        orderItemService.markAsReadyToServe(orderItem);
                         this.fetchUnfinishedOrders();
                     },
                     loadMenuItems() {
@@ -375,7 +375,7 @@
                         this.fetchUnfinishedOrders();
                     },
                     markItemAsReadyToServe(orderItem) {
-                        orderItemService.markAsPreparing(orderItem);
+                        orderItemService.markAsReadyToServe(orderItem);
                         this.fetchUnfinishedOrders();
                     },
                     loadMenuItems() {
