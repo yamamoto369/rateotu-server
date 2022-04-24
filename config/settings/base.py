@@ -32,7 +32,7 @@ INSTALLED_APPS = [
     "rest_framework",
     "corsheaders",
     # Local
-    "rateotu.orders.apps.OrdersConfig",
+    "rateotu.accounts.apps.AccountsAppConfig",
 ]
 # MIDDLEWARE
 # ------------------------------------------------------------------------------
@@ -66,6 +66,9 @@ REST_FRAMEWORK = {
         "rest_framework.parsers.JSONParser",
     ],
 }
+# AUTHENTICATION & AUTHORIZATION
+# ------------------------------------------------------------------------------
+AUTH_USER_MODEL = "accounts.User"
 # PASSWORD VALIDATION
 # ------------------------------------------------------------------------------
 AUTH_PASSWORD_VALIDATORS = [
