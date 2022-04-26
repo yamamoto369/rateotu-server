@@ -1,15 +1,16 @@
 """
 Base settings to build other settings files upon.
 """
-from pathlib import Path
-
 import environ
+from pathlib import Path
+from datetime import timedelta
 
 env = environ.Env()
 
 # GENERAL
 # ------------------------------------------------------------------------------
 BASE_DIR = Path(__file__).resolve(strict=True).parent.parent.parent
+env.read_env(BASE_DIR / ".env")
 
 PROJECT_NAME = "rateotu"
 
@@ -30,6 +31,7 @@ INSTALLED_APPS = [
     "django.contrib.staticfiles",
     # third-party
     "rest_framework",
+    "djoser",
     "corsheaders",
     # Local
     "rateotu.accounts.apps.AccountsAppConfig",
@@ -69,6 +71,26 @@ REST_FRAMEWORK = {
 # AUTHENTICATION & AUTHORIZATION
 # ------------------------------------------------------------------------------
 AUTH_USER_MODEL = "accounts.User"
+
+DJOSER = {
+    "ACTIVATION_URL": "accounts/activate/{uid}/{token}",
+    "PASSWORD_RESET_CONFIRM_URL": "accounts/password/reset/confirm/{uid}/{token}",
+    "SEND_ACTIVATION_EMAIL": True,
+    "SEND_CONFIRMATION_EMAIL": True,
+    "PASSWORD_CHANGED_EMAIL_CONFIRMATION": True,
+    "SET_PASSWORD_RETYPE": True,
+    "PASSWORD_RESET_CONFIRM_RETYPE": True,
+    "TOKEN_MODEL": None,
+}
+
+SITE_NAME = "The Restaurant at the End of the Universe"
+
+SIMPLE_JWT = {
+    "ACCESS_TOKEN_LIFETIME": timedelta(minutes=15),
+    "REFRESH_TOKEN_LIFETIME": timedelta(days=5),
+    "USER_ID_FIELD": env("USER_ID_FIELD"),
+    "USER_ID_CLAIM": env("USER_ID_CLAIM"),
+}
 # PASSWORD VALIDATION
 # ------------------------------------------------------------------------------
 AUTH_PASSWORD_VALIDATORS = [
@@ -119,3 +141,13 @@ TEMPLATES = [
         },
     },
 ]
+# EMAIL
+# ------------------------------------------------------------------------------
+EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
+SERVER_EMAIL = env("SERVER_EMAIL")
+EMAIL_HOST = env("EMAIL_HOST")
+EMAIL_HOST_PASSWORD = env("EMAIL_HOST_PASSWORD")
+EMAIL_PORT = env("EMAIL_PORT")
+EMAIL_USE_TLS = env("EMAIL_USE_TLS")
+EMAIL_HOST_USER = SERVER_EMAIL
+DEFAULT_FROM_EMAIL = SERVER_EMAIL

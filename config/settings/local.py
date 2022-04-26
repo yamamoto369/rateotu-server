@@ -1,7 +1,6 @@
 from .base import *
 from .base import env
 
-env.read_env(BASE_DIR / ".env")
 
 # GENERAL
 # ------------------------------------------------------------------------------
@@ -34,3 +33,4 @@ REST_FRAMEWORK["DEFAULT_RENDERER_CLASSES"] = [
 # AUTHENTICATION & AUTHORIZATION
 # ------------------------------------------------------------------------------
 CORS_ALLOWED_ORIGINS = ["http://localhost:3000", "http://127.0.0.1:3000"]
+DOMAIN = "localhost:3000"
