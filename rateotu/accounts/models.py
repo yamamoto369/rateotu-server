@@ -40,4 +40,8 @@ class User(AbstractUser):
 
     @property
     def permission_role(self):
-        return "employee" if self.is_employee else "customer"
+        if self.is_employee:
+            return "employee"
+        elif self.is_customer:
+            return "customer"
+        return "anonymous"
