@@ -20,7 +20,7 @@ class UserAdmin(UserAdmin):
             {
                 "fields": (
                     "galaxy",
-                    "solar_system",
+                    "star_system",
                     "home_planet",
                     "planet",
                     "colony",
@@ -35,7 +35,7 @@ class UserAdmin(UserAdmin):
             {
                 "fields": (
                     "galaxy",
-                    "solar_system",
+                    "star_system",
                     "home_planet",
                     "planet",
                     "colony",
