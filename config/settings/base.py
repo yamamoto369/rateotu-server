@@ -67,6 +67,12 @@ REST_FRAMEWORK = {
     "DEFAULT_PARSER_CLASSES": [
         "rest_framework.parsers.JSONParser",
     ],
+    "DEFAULT_AUTHENTICATION_CLASSES": [
+        "rest_framework_simplejwt.authentication.JWTAuthentication",
+    ],
+    "DEFAULT_PERMISSION_CLASSES": [
+        "rest_framework.permissions.IsAuthenticated",
+    ],
 }
 # AUTHENTICATION & AUTHORIZATION
 # ------------------------------------------------------------------------------
@@ -88,8 +94,8 @@ SITE_NAME = "The Restaurant at the End of the Universe"
 SIMPLE_JWT = {
     "ACCESS_TOKEN_LIFETIME": timedelta(minutes=15),
     "REFRESH_TOKEN_LIFETIME": timedelta(days=5),
-    "USER_ID_FIELD": env("USER_ID_FIELD"),
-    "USER_ID_CLAIM": env("USER_ID_CLAIM"),
+    "USER_ID_FIELD": "username",
+    "USER_ID_CLAIM": "username",
 }
 # PASSWORD VALIDATION
 # ------------------------------------------------------------------------------
