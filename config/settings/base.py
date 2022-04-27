@@ -35,6 +35,7 @@ INSTALLED_APPS = [
     "corsheaders",
     # Local
     "rateotu.accounts.apps.AccountsAppConfig",
+    "rateotu.customers.apps.CustomersAppConfig",
 ]
 # MIDDLEWARE
 # ------------------------------------------------------------------------------
