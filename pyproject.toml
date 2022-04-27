@@ -7,6 +7,7 @@ authors = ["Edin <yamamoto.nakamoto@gmail.com>"]
 [tool.poetry.dependencies]
 # Python
 python = "~3.10"
+Pillow = "^9.1.0"
 # Django
 django = "~3.2.13"
 djangorestframework = "^3.13.1"
