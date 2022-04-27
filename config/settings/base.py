@@ -36,6 +36,7 @@ INSTALLED_APPS = [
     # Local
     "rateotu.accounts.apps.AccountsAppConfig",
     "rateotu.customers.apps.CustomersAppConfig",
+    "rateotu.employees.apps.EmployeesAppConfig",
 ]
 # MIDDLEWARE
 # ------------------------------------------------------------------------------
