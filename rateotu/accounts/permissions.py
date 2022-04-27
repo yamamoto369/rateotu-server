@@ -8,12 +8,26 @@ class IsEmployee(BasePermission):
     Allows HTTP access only to employee users.
     """
 
-    # View-level (API level) permission
+    # NOTE: View-level (API level) permission
     def has_permission(self, request, view):
         return request.user and request.user.is_employee
 
-    # Instance-level (API level) permission
+    # NOTE: Instance-level (API level) permission
     # Requires an extra query, not needed for now
+    def has_object_permission(self, request, view, obj):
+        return True
+
+
+class IsCustomer(BasePermission):
+    """
+    Custom IsEmployee permission.
+
+    Allows HTTP access only to customer users.
+    """
+
+    def has_permission(self, request, view):
+        return request.user and request.user.is_customer
+
     def has_object_permission(self, request, view, obj):
         return True
 
