@@ -4,6 +4,7 @@ from django.urls import path, include
 
 
 from rateotu.menus import urls as menu_urls
+from rateotu.orders import urls as order_urls
 
 
 urlpatterns = [
@@ -16,6 +17,8 @@ api_urlpatterns = [
     path("api/accounts/", include("rateotu.accounts.urls")),
     # Menus
     path("api/menus", include(menu_urls)),
+    # Orders
+    path("api/orders", include(order_urls)),
 ]
 
 urlpatterns += api_urlpatterns

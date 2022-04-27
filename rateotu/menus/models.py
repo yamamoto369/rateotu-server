@@ -34,7 +34,6 @@ class Category(models.Model):
         return self.name
 
 
-# Todo: Update Menu.updated_at when updating Item (out of sync)
 class Item(models.Model):
     category = models.ForeignKey(
         Category, on_delete=models.CASCADE, related_name="menu_items"

@@ -1,6 +1,6 @@
 from rateotu.customers.models import Customer
 
-# TOOD: add mypy and Django/DRF stubs
+# TODO: add mypy and Django/DRF stubs
 
 
 def create_customer(user):

@@ -1,6 +1,6 @@
 from django.apps import AppConfig
 
 
-class OrdersConfig(AppConfig):
-    default_auto_field = "django.db.models.BigAutoField"
+class OrdersAppConfig(AppConfig):
     name = "rateotu.orders"
+    verbose_name = "Orders"
