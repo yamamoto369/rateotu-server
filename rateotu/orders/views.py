@@ -22,9 +22,9 @@ class OrderListCreateView(generics.ListCreateAPIView):
     def get_queryset(self):
         return (
             Order.objects.owned_by_user(self.request.user.customer)
-            .prefetch_related("order_items")
+            .prefetch_related("order_items__item__category")
             .select_related("customer__user")
-            .order_by("id")
+            .order_by("-id")
         )
 
     def get_serializer_class(self):
