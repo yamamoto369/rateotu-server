@@ -14,7 +14,9 @@ class Employee(models.Model):
         ("off duty", "Off-duty"),
     ]
 
-    user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    user = models.OneToOneField(
+        settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name="employee"
+    )
     role = models.CharField(
         max_length=25,
         choices=ROLE_CHOICES,

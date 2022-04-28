@@ -3,7 +3,9 @@ from django.conf import settings
 
 
 class Customer(models.Model):
-    user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    user = models.OneToOneField(
+        settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name="customer"
+    )
     recieve_notification = models.BooleanField(
         default=True,
         verbose_name="Recieve Notifications",
@@ -17,4 +19,4 @@ class Customer(models.Model):
         verbose_name_plural = "Customers"
 
     def __str__(self):
-        return self.user
+        return self.user.username
