@@ -55,6 +55,19 @@ class Order(models.Model):
 
 # NOTE: Manual M:N relationship (allows us to add a custom fields)
 class OrderItem(models.Model):
+    ORDER_STATUS_CHOICES = [
+        ("created", "Created"),
+        ("preparing", "Preparing"),
+        ("ready", "Ready"),
+        ("cancelled", "Cancelled"),
+        ("served", "Served"),
+    ]
+    PAYMENT_STATUS_CHOICES = [
+        ("pending", "Pending"),
+        ("paid", "Paid"),
+        ("not paid", "Not paid"),
+    ]
+
     order = models.ForeignKey(
         Order, on_delete=models.CASCADE, related_name="order_items"
     )
@@ -75,6 +88,19 @@ class OrderItem(models.Model):
                      or for a pre made food and drinks which can be served in
                      restaurants (e.g. cans of something, sweets, etc)""",
     )
+    order_status = models.CharField(
+        max_length=25,
+        choices=ORDER_STATUS_CHOICES,
+        default=ORDER_STATUS_CHOICES[0][0],
+    )
+    payment_status = models.CharField(
+        max_length=25,
+        choices=PAYMENT_STATUS_CHOICES,
+        default=PAYMENT_STATUS_CHOICES[2][0],
+    )
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+    served_at = models.DateTimeField(blank=True, null=True)
 
     # TODO_ N+1
     def __str__(self):
