@@ -33,6 +33,7 @@ INSTALLED_APPS = [
     "rest_framework",
     "djoser",
     "corsheaders",
+    "django_filters",
     # Local
     "rateotu.accounts.apps.AccountsAppConfig",
     "rateotu.customers.apps.CustomersAppConfig",
@@ -76,6 +77,9 @@ REST_FRAMEWORK = {
     ],
     "DEFAULT_PERMISSION_CLASSES": [
         "rest_framework.permissions.IsAuthenticated",
+    ],
+    "DEFAULT_FILTER_BACKENDS": [
+        "django_filters.rest_framework.DjangoFilterBackend",
     ],
 }
 # AUTHENTICATION & AUTHORIZATION
