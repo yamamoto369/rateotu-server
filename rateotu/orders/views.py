@@ -3,9 +3,14 @@ from rest_framework.permissions import IsAuthenticated
 
 from rateotu.accounts.permissions import IsCustomer, IsEmployee
 from rest_framework.permissions import SAFE_METHODS
-from rateotu.orders.serializers import OrderListSerializer, OrderCreateSerializer
-from rateotu.orders.models import Order
+from rateotu.orders.serializers import (
+    OrderListSerializer,
+    OrderCreateSerializer,
+    OrderItemSerializer,
+)
+from rateotu.orders.models import Order, OrderItem
 from rateotu.orders.services import create_customer_order
+from rateotu.orders.filters import OrderItemFilter
 
 
 # NOTE: Order Collection controller
@@ -36,3 +41,18 @@ class OrderListCreateView(generics.ListCreateAPIView):
         # NOTE: This 'hook' runs after the 'serializer.is_valid(raise_exception=True)'
         # Which means the 'serializer.data' will be populated with a validated data
         create_customer_order(self.request.user, serializer.data)
+
+
+class OrderItemListView(generics.ListAPIView):
+    """
+    List all order items.
+    """
+
+    permission_classes = [IsAuthenticated & IsEmployee]
+    serializer_class = OrderItemSerializer
+    filterset_class = OrderItemFilter
+
+    def get_queryset(self):
+        return OrderItem.objects.select_related(
+            "order", "item__category", "customer__user"
+        ).order_by("-id")

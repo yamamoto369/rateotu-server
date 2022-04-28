@@ -29,3 +29,19 @@ class OrderCreateSerializer(serializers.ModelSerializer):
         model = Order
         # NOTE: All which are required except the customer (check views)
         exclude = ["customer"]
+
+
+class OrderReadSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Order
+        fields = "__all__"
+
+
+class OrderItemSerializer(serializers.ModelSerializer):
+    item = ItemReadSerializer()
+    customer = CustomerSerializer()
+    order = OrderReadSerializer()
+
+    class Meta:
+        model = OrderItem
+        fields = "__all__"
