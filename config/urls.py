@@ -2,7 +2,7 @@ from django.conf import settings
 from django.contrib import admin
 from django.urls import path, include
 
-
+from rateotu.accounts.urls import employee_urlspatterns, customer_urlpatterns
 from rateotu.menus import urls as menu_urls
 from rateotu.orders import urls as order_urls
 
@@ -14,7 +14,8 @@ urlpatterns = [
 # Note: It's more REST API 'friendly' to have URLS without the ending forward slash
 api_urlpatterns = [
     # Accounts (authentication, authorization, users)
-    path("api/accounts/", include("rateotu.accounts.urls")),
+    path("api/accounts/", include(customer_urlpatterns)),  # — employees and customers
+    path("api/emp/accounts/", include(employee_urlspatterns)),  # — employees only
     # Menus
     path("api/menus", include(menu_urls)),
     # Orders

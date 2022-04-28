@@ -1,10 +1,7 @@
 from rest_framework_simplejwt.views import TokenObtainPairView
 
-from rateotu.accounts.serializers import CustomJwtTokenObtainPairSerializer
+from rateotu.accounts.serializers import CustomTokenObtainPairSerializer
 
 
-class CustomJwtTokenObtainPairView(TokenObtainPairView):
-    serializer_class = CustomJwtTokenObtainPairSerializer
-
-    def post(self, request, *args, **kwargs):
-        return super().post(request, *args, **kwargs)
+class CustomTokenObtainPairView(TokenObtainPairView):
+    serializer_class = CustomTokenObtainPairSerializer
