@@ -17,7 +17,7 @@ from rateotu.orders.filters import OrderItemFilter
 # NOTE: Only HEAD, OPTIONS, GET, POST http methods
 class OrderListCreateView(generics.ListCreateAPIView):
     """
-    List all orders that are owned by the authenticated
+    List all orders that are owned by an authenticated
     customer user, or create a new order.
     """
 
@@ -39,8 +39,12 @@ class OrderListCreateView(generics.ListCreateAPIView):
 
     def perform_create(self, serializer):
         # NOTE: This 'hook' runs after the 'serializer.is_valid(raise_exception=True)'
-        # Which means the 'serializer.data' will be populated with a validated data
-        create_customer_order(self.request.user, serializer.data)
+        # Which means the 'serializer.validated_data' will be populated with a
+        # validated data.
+        validated_data = serializer.validated_data.copy()
+        total = validated_data.pop("total")
+        order_items = validated_data.pop("order_items")
+        create_customer_order(self.request.user.customer, total, order_items)
 
 
 class OrderItemListView(generics.ListAPIView):
