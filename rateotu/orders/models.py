@@ -75,7 +75,6 @@ class OrderItem(models.Model):
         Customer, on_delete=models.CASCADE, related_name="order_items"
     )
     item = models.ForeignKey(Item, on_delete=models.CASCADE, related_name="order_items")
-    # Add employee fk (if employees are allowed to order our food)
     # NOTE: Max 999,999.99 (1M of 'space £')
     price = models.DecimalField(
         max_digits=8,
