@@ -15,8 +15,9 @@ class Order(models.Model):
         ("created", "Created"),
         ("preparing", "Preparing"),
         ("ready", "Ready"),
-        ("cancelled", "Cancelled"),
         ("served", "Served"),
+        ("serving", "Serving"),
+        ("cancelled", "Cancelled"),
     ]
     PAYMENT_STATUS_CHOICES = [
         ("pending", "Pending"),
@@ -59,8 +60,9 @@ class OrderItem(models.Model):
         ("created", "Created"),
         ("preparing", "Preparing"),
         ("ready", "Ready"),
-        ("cancelled", "Cancelled"),
         ("served", "Served"),
+        ("serving", "Serving"),
+        ("cancelled", "Cancelled"),
     ]
     PAYMENT_STATUS_CHOICES = [
         ("pending", "Pending"),
