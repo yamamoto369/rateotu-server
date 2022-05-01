@@ -57,3 +57,20 @@ class OrderItemListView(generics.ListAPIView):
         return OrderItem.objects.select_related(
             "order", "item__category", "customer__user"
         ).order_by("-id")
+
+
+class OrderItemDetailView(generics.RetrieveUpdateDestroyAPIView):
+    """
+    Retrieve, update or delete a specific order item.
+    """
+
+    lookup_field = "pk"
+    permission_classes = [IsAuthenticated & IsEmployee]
+    serializer_class = OrderItemSerializer
+
+    # Gets a object intance based on the qs bellow
+    # obj = get_object_or_404(queryset, **filter_kwargs)
+    def get_queryset(self):
+        return OrderItem.objects.select_related(
+            "order", "item__category", "customer__user"
+        )
