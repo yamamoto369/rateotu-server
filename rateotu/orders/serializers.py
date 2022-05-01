@@ -27,7 +27,6 @@ class OrderCreateSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Order
-        # NOTE: All which are required except the customer (check views)
         exclude = ["customer"]
 
 

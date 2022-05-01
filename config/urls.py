@@ -11,7 +11,7 @@ urlpatterns = [
     path("admin/", admin.site.urls),
 ]
 
-# Note: It's more REST API 'friendly' to have URLS without the ending forward slash
+# It's more REST API 'friendly' to have URLS without the ending forward slash
 api_urlpatterns = [
     # Accounts (authentication, authorization, users)
     path("api/accounts/", include(customer_urlpatterns)),  # — employees and customers

@@ -1,10 +1,10 @@
 """
-# NOTE: Here we add our orders-related business logic (a class, func, etc).
+# Here we add our orders-related business logic (a class, func, etc).
 # For instance, calling an internal or external services (e.g. if blocking,
 # then we should use Celery task queue without blocking our main Django thread),
 # interacting with a database (DML/pushing or deleting data to/from the database)
 # and other parts of our system, etc.
-# NOTE: This can also be a module inside the services package (in an advanced stage
+# This can also be a module inside the services package (in an advanced stage
 # of the project)
 
 # TODO: Add mypy and Django/DRF stubs.

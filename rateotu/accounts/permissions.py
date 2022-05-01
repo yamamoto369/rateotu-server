@@ -8,11 +8,11 @@ class IsEmployee(BasePermission):
     Allows HTTP access only to employee users.
     """
 
-    # NOTE: View-level (API level) permission
+    # View-level (API level) permission
     def has_permission(self, request, view):
         return request.user and request.user.is_employee
 
-    # NOTE: Instance-level (API level) permission
+    # Instance-level (API level) permission
     # Requires an extra query, not needed for now
     def has_object_permission(self, request, view, obj):
         return True

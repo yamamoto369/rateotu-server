@@ -25,7 +25,7 @@ class Order(models.Model):
         ("not paid", "Not paid"),
     ]
 
-    # NOTE: Max 9,999,999,999.99 (10B of 'space £')
+    # Max 9,999,999,999.99 (10B of 'space £')
     total = models.DecimalField(
         max_digits=10,
         decimal_places=2,
@@ -54,7 +54,6 @@ class Order(models.Model):
         return self.order_status
 
 
-# NOTE: Manual M:N relationship (allows us to add a custom fields)
 class OrderItem(models.Model):
     ORDER_STATUS_CHOICES = [
         ("created", "Created"),
@@ -77,7 +76,7 @@ class OrderItem(models.Model):
         Customer, on_delete=models.CASCADE, related_name="order_items"
     )
     item = models.ForeignKey(Item, on_delete=models.CASCADE, related_name="order_items")
-    # NOTE: Max 999,999.99 (1M of 'space £')
+    # Max 999,999.99 (1M of 'space £')
     price = models.DecimalField(
         max_digits=8,
         decimal_places=2,

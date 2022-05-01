@@ -17,4 +17,4 @@ class MenuListView(generics.ListAPIView):
     def get_queryset(self):
         return Menu.objects.prefetch_related(
             "items__category"
-        )  # NOTE: 2 queries instead N+1
+        )  # 2 queries instead N+1

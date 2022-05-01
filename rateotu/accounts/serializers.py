@@ -10,7 +10,7 @@ class CustomTokenObtainPairSerializer(TokenObtainPairSerializer):
     @classmethod
     def get_token(cls, user):
         token = super().get_token(user)
-        # NOTE: A quick temp solution
+        # A quick temp solution
         # FIXME: Override Djoser endpoint, add employee role in serliazer
         # Call in client and set with Redux
         if user.is_employee:
