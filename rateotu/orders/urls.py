@@ -10,4 +10,9 @@ urlpatterns = [
     path(
         "/items/<int:pk>", views.OrderItemDetailView.as_view(), name="order-item-detail"
     ),
+    path(
+        "/items/bulk-update",
+        views.OrderItemBulkUpdateView.as_view(),
+        name="order-item-bulk-update",
+    ),
 ]
