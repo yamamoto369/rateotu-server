@@ -1,7 +1,7 @@
 from channels.generic.websocket import AsyncWebsocketConsumer
 
-from rateotu.utils.websockets.mixins import AsyncJsonEncoderDecoderMixin
-from rateotu.utils.websockets.selectors import get_employee_role
+from rateotu.utils.asyncio.mixins import AsyncJsonEncoderDecoderMixin
+from rateotu.utils.asyncio.selectors import get_employee_role
 
 
 class EmployeeNotificationConsumer(

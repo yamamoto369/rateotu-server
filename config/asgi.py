@@ -6,7 +6,7 @@ from channels.routing import ProtocolTypeRouter, URLRouter
 from channels.security.websocket import AllowedHostsOriginValidator
 
 from rateotu.employees.routing import websocket_urlpatterns
-from rateotu.utils.websockets.auth import JWTAuthMiddleware
+from rateotu.utils.asyncio.auth import JWTAuthMiddleware
 
 
 os.environ.setdefault("DJANGO_SETTINGS_MODULE", "config.settings.production")
