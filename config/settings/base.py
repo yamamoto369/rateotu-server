@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     "rateotu.employees.apps.EmployeesAppConfig",
     "rateotu.menus.apps.MenusAppConfig",
     "rateotu.orders.apps.OrdersAppConfig",
+    "rateotu.notifications.apps.NotificationsAppConfig",
 ]
 # MIDDLEWARE
 # ------------------------------------------------------------------------------
