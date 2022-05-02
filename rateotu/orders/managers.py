@@ -1,5 +1,7 @@
 from django.db.models.query import QuerySet
 
+# TODO: Add more manager methods to keep it DRY
+
 
 class OrderQuerySet(QuerySet):
     """

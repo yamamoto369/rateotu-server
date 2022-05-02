@@ -88,6 +88,7 @@ class OrderItem(models.Model):
                      or for a pre made food and drinks which can be served in
                      restaurants (e.g. cans of something, sweets, etc)""",
     )
+    # Consider adding 'category_name' to reduce amount of joins
     order_status = models.CharField(
         max_length=25,
         choices=ORDER_STATUS_CHOICES,
@@ -104,4 +105,4 @@ class OrderItem(models.Model):
 
     # TODO_ N+1
     def __str__(self):
-        return self.item.name
+        return f"{self.id} - {self.item.name}"
