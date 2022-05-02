@@ -165,3 +165,49 @@ EMAIL_PORT = env("EMAIL_PORT")
 EMAIL_USE_TLS = env("EMAIL_USE_TLS")
 EMAIL_HOST_USER = SERVER_EMAIL
 DEFAULT_FROM_EMAIL = SERVER_EMAIL
+# LOGGING
+# ------------------------------------------------------------------------------
+LOGS_DIR = BASE_DIR / "logs"
+LOGGING = {
+    "version": 1,
+    "disable_existing_loggers": False,
+    "filters": {
+        "require_debug_true": {
+            "()": "django.utils.log.RequireDebugTrue",
+        },
+    },
+    "formatters": {
+        "simple": {
+            "format": "[%(asctime)s %(levelname)s %(name)s] %(message)s",
+            "datefmt": "%Y-%m-%d %H:%M:%S %z",
+        },
+        "verbose": {
+            "format": "[%(asctime)s %(levelname)s %(name)s] [%(pathname)s:%(lineno)d] %(message)s",  # noqa
+            "datefmt": "%Y-%m-%d %H:%M:%S %z",
+        },
+    },
+    "handlers": {
+        "console": {
+            "level": "DEBUG",
+            "filters": ["require_debug_true"],
+            "class": "logging.StreamHandler",
+            "formatter": "simple",
+        },
+        "rateotu_logfile": {
+            "level": "INFO",
+            # 'filters': ['require_debug_true'],
+            "class": "logging.handlers.RotatingFileHandler",
+            "filename": LOGS_DIR / "rateotu.log",
+            "maxBytes": 1024 * 1024 * 10,  # 10MB
+            "backupCount": 5,
+            "formatter": "verbose",
+        },
+    },
+    "loggers": {
+        "rateotu": {
+            "handlers": ["rateotu_logfile"],
+            "propagate": False,
+            "level": "DEBUG",
+        },
+    },
+}
