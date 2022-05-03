@@ -1,0 +1,23 @@
+# General
+# ------------------------------------------------------------------------------
+SECRET_KEY=django-insecure-%somerandomsecretkey%
+DEBUG=True
+ALLOWED_HOSTS=localhost,127.0.0.1,0.0.0.0,django
+INTERNAL_IPS=127.0.0.1,10.0.2.2
+# DATABASES
+# ------------------------------------------------------------------------------
+DATABASE_URL=postgres://rateotu_user:dummypass@postgres:5432/rateotu_db
+REDIS_HOST=redis
+REDIS_PORT=6379
+# AUTHENTICATION & AUTHORIZATION
+# ------------------------------------------------------------------------------
+CORS_ALLOWED_ORIGINS=http://localhost:3000,http://127.0.0.1:3000,http://localhost:3005,http://127.0.0.1:3005
+SITE_NAME=The Restaurant at the End of the Universe
+# EMAIL
+# ------------------------------------------------------------------------------
+DOMAIN=localhost:3000
+SERVER_EMAIL=rateoto.restaurant@gmail.com
+EMAIL_HOST=smtp.gmail.com
+EMAIL_HOST_PASSWORD=fake
+EMAIL_PORT=587
+EMAIL_USE_TLS=True

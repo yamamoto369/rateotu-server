@@ -1,0 +1,87 @@
+version: "3.9"
+
+x-django: &django
+  build:
+    context: .
+    dockerfile: ./docker/local/django/Dockerfile
+  depends_on:
+    - postgres
+    - pgadmin
+    - redis
+  env_file:
+    - ./.envs/.local/.django
+    - ./.envs/.local/.postgres
+  volumes:
+    - ".:/app"
+  networks:
+    - local_server
+
+services:
+  django:
+    <<: *django
+    image: local_django
+    ports:
+      - "8000:8000"
+    restart: unless-stopped
+    networks:
+      - local_server
+      - local_server_customer_client
+      - local_server_employee_client
+    command: /start
+  postgres:
+    build:
+      context: .
+      dockerfile: ./docker/production/postgres/Dockerfile
+    image: local_postgres
+    ports:
+      - "5432:5432"
+      - "6543:5432"
+    restart: unless-stopped
+    env_file:
+      - ./.envs/.local/.postgres
+    volumes:
+      - "local_postgres_data:/var/lib/postgresql/data"
+    networks:
+      - local_server
+  pgadmin:
+    depends_on:
+      - postgres
+    image: dpage/pgadmin4
+    ports:
+      - "5050:5050"
+    restart: unless-stopped
+    env_file:
+      - ./.envs/.local/.pgadmin
+    volumes:
+      - "local_pgadmin_data:/var/lib/pgadmin"
+    networks:
+      - local_server
+  redis:
+    image: redis:6
+    ports:
+      - "6379:6379"
+    networks:
+      - local_server
+  project_docs:
+    image: "squidfunk/mkdocs-material"
+    ports:
+      - "4000:8000"
+    restart: "unless-stopped"
+    volumes:
+      - ".:/docs"
+    networks:
+      - "local_server"
+
+volumes:
+  local_postgres_data: {}
+  local_pgadmin_data: {}
+networks:
+  local_server:
+    name: local_server
+    driver: bridge
+  local_server_customer_client:
+    name: local_server_customer_client
+    driver: bridge
+  local_server_employee_client:
+    name: local_server_employee_client
+    driver: bridge
