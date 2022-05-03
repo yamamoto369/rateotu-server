@@ -17,8 +17,8 @@ def get_user(field_name, value):
 
 
 @database_sync_to_async
-def get_employee_role(user):
+def get_employee_for_user(user):
     """
-    Tries to fetch employees role for a given user.
+    Tries to fetch Employee obj for a given user.
     """
-    return user.employee.role
+    return user.employee

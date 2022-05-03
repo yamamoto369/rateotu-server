@@ -164,7 +164,7 @@ def send_order_notification_to_available_employees(order_items, employees):
     for order_item in order_items:
         for employee in employees:
             async_to_sync(channel_layer.group_send)(
-                f"ws_employee_{employee.role}s",
+                f"ws_employee_{employee.id}_{employee.role}",
                 {
                     "type": "broadcast_to_employees",
                     "payload": OrderItemSerializer(order_item).data,
