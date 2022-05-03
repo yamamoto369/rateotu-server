@@ -1,0 +1,7 @@
+# Postgres
+# ------------------------------------------------------------------------------
+POSTGRES_USER=rateotu_user
+POSTGRES_PASSWORD=dummypass
+POSTGRES_DB=rateotu_db
+POSTGRES_HOST=postgres
+POSTGRES_PORT=5432

@@ -1,15 +1,20 @@
+import socket
+
 from .base import *
 from .base import env
 
 
 # GENERAL
 # ------------------------------------------------------------------------------
-DEBUG = True
+DEBUG = env("DEBUG")
 
-ALLOWED_HOSTS = ["localhost", "127.0.0.1"]
+ALLOWED_HOSTS = env.list("ALLOWED_HOSTS")
 
-INTERNAL_IPS = ["127.0.0.1"]
-# noqa
+# Trick to show Django Debug Toolbar when using Docker
+hostname, _, ips = socket.gethostbyname_ex(socket.gethostname())
+INTERNAL_IPS = [".".join(ip.split(".")[:-1] + ["1"]) for ip in ips] + env.list(
+    "INTERNAL_IPS"
+)  # noqa
 # APPS
 # ------------------------------------------------------------------------------
 INSTALLED_APPS += [
@@ -36,10 +41,5 @@ REST_FRAMEWORK["DEFAULT_AUTHENTICATION_CLASSES"] = [
 ]
 # AUTHENTICATION & AUTHORIZATION
 # ------------------------------------------------------------------------------
-CORS_ALLOWED_ORIGINS = [
-    "http://localhost:3000",
-    "http://127.0.0.1:3000",
-    "http://localhost:3005",
-    "http://127.0.0.1:3005",
-]
-DOMAIN = "localhost:3000"  # TODO: revisit
+CORS_ALLOWED_ORIGINS = env.list("CORS_ALLOWED_ORIGINS")
+DOMAIN = env("DOMAIN")

@@ -1,0 +1,8 @@
+# Read this when developing locally https://stackoverflow.com/questions/53934579/
+
+# Misc
+.editorconfig
+.gitignore
+LICENSE
+README.md
+.vscode/

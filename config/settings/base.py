@@ -16,9 +16,9 @@ PROJECT_NAME = "rateotu"
 
 APPS_DIR = BASE_DIR / PROJECT_NAME
 
-SECRET_KEY = "django-insecure-%somerandomsecretkey%"
+SECRET_KEY = env("SECRET_KEY")
 
-DEBUG = False
+DEBUG = env("DEBUG")
 # APPS
 # ------------------------------------------------------------------------------
 INSTALLED_APPS = [
@@ -69,7 +69,7 @@ CHANNEL_LAYERS = {
     "default": {
         "BACKEND": "channels_redis.core.RedisChannelLayer",
         "CONFIG": {
-            "hosts": [("127.0.0.1", 6379)],
+            "hosts": [(env("REDIS_HOST"), env("REDIS_PORT"))],
         },
     },
 }
@@ -109,7 +109,7 @@ DJOSER = {
     "TOKEN_MODEL": None,
 }
 
-SITE_NAME = "The Restaurant at the End of the Universe"
+SITE_NAME = env("SITE_NAME")
 
 SIMPLE_JWT = {
     "ACCESS_TOKEN_LIFETIME": timedelta(minutes=15),
