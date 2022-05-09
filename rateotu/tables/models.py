@@ -48,7 +48,7 @@ class Seat(models.Model):
     def clean(self):
         if (
             not self.pk
-            and self.get_queryset().filter(table=self.table).count()
+            and Seat.objects.filter(table=self.table).count()
             >= self.table.seat_capacity
         ):
             raise ValidationError("Only 8 seats per table allowed!")

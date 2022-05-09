@@ -30,6 +30,7 @@ class SeatWriteSerializer(serializers.ModelSerializer):
 
 class TableSerializer(serializers.ModelSerializer):
     seats = SeatReadSerializer(many=True)
+    available_seat_capacity = serializers.ReadOnlyField()
 
     class Meta:
         model = Table
