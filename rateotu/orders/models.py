@@ -3,9 +3,10 @@ from decimal import Decimal
 from django.db import models
 from django.core.validators import MinValueValidator
 
+from rateotu.orders.managers import OrderManager
 from rateotu.customers.models import Customer
 from rateotu.menus.models import Item
-from rateotu.orders.managers import OrderManager
+from rateotu.tables.models import Table
 
 # TODO: add https://github.com/makinacorpus/django-safedelete
 
@@ -34,6 +35,13 @@ class Order(models.Model):
         help_text="Total amount in space £",
     )
     customer = models.ForeignKey(Customer, on_delete=models.CASCADE)
+    table = models.ForeignKey(
+        Table,
+        blank=True,
+        null=True,
+        on_delete=models.SET_NULL,
+        related_name="orders",  # todo: assign
+    )
     order_status = models.CharField(
         max_length=25,
         choices=ORDER_STATUS_CHOICES,
@@ -51,7 +59,7 @@ class Order(models.Model):
     objects = OrderManager()
 
     def __str__(self):
-        return self.order_status
+        return f"{self.id} - {self.order_status}"
 
 
 class OrderItem(models.Model):
@@ -76,6 +84,13 @@ class OrderItem(models.Model):
         Customer, on_delete=models.CASCADE, related_name="order_items"
     )
     item = models.ForeignKey(Item, on_delete=models.CASCADE, related_name="order_items")
+    table = models.ForeignKey(
+        Table,
+        blank=True,
+        null=True,
+        on_delete=models.SET_NULL,
+        related_name="order_items",  # todo: assign
+    )
     # Max 999,999.99 (1M of 'space £')
     price = models.DecimalField(
         max_digits=8,
@@ -103,6 +118,6 @@ class OrderItem(models.Model):
     updated_at = models.DateTimeField(auto_now=True)
     served_at = models.DateTimeField(blank=True, null=True)
 
-    # TODO_ N+1
+    # TODO_ N+1, override base get_queryset
     def __str__(self):
         return f"{self.id} - {self.item.name}"

@@ -18,6 +18,6 @@ SITE_NAME=The Restaurant at the End of the Universe
 DOMAIN=localhost:3000
 SERVER_EMAIL=rateoto.restaurant@gmail.com
 EMAIL_HOST=smtp.gmail.com
-EMAIL_HOST_PASSWORD=fake
+EMAIL_HOST_PASSWORD=rateoturateotu
 EMAIL_PORT=587
 EMAIL_USE_TLS=True

@@ -11,7 +11,9 @@ User = get_user_model()
 class UserAdmin(UserAdmin):
     form = UserChangeForm
     add_form = UserCreationForm
-    inlines = (EmployeeInline,)
+    inlines = [
+        EmployeeInline,
+    ]
     list_display = ["username", "email", "is_active", "is_employee", "is_customer"]
     search_fields = ["username", "email", "is_employee", "is_customer"]
     fieldsets = UserAdmin.fieldsets + (

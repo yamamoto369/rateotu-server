@@ -45,7 +45,8 @@ class OrderListCreateView(ReadWriteSerializerMixin, generics.ListCreateAPIView):
         validated_data = serializer.validated_data.copy()
         total = validated_data.pop("total")
         order_items = validated_data.pop("order_items")
-        create_customer_order(self.request.user.customer, total, order_items)
+        table = validated_data.pop("table")
+        create_customer_order(self.request.user.customer, total, order_items, table)
 
 
 class OrderItemListView(generics.ListAPIView):
@@ -59,7 +60,7 @@ class OrderItemListView(generics.ListAPIView):
 
     def get_queryset(self):
         return OrderItem.objects.select_related(
-            "order", "item__category", "customer__user"
+            "table", "order", "item__category", "customer__user"
         ).order_by("-id")
 
 
