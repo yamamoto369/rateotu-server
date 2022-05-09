@@ -28,6 +28,12 @@ docker-compose -f compose-local.yml up --build
 
 This will start all dependent services inside Docker containers. Once they're up and running, you can visit [http://127.0.0.1:3000/](http://127.0.0.1:3000/) to view the customer web app in the browser or [http://127.0.0.1:3005/](http://127.0.0.1:3005/) to view the employee web app.
 
+**To load initial fixtures use:**
+
+```bash
+docker-compose -f compose-local.yml run --rm django python manage.py loaddata db_dump.json
+```
+
 ## 📰 Project Docs
 
 You can read the project documentation at [http://127.0.0.1:4000/](http://127.0.0.1:4000/).

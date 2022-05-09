@@ -12,6 +12,7 @@
 import logging
 
 from django.db import transaction
+from django.utils import timezone
 
 from channels.layers import get_channel_layer
 from asgiref.sync import async_to_sync
@@ -26,7 +27,7 @@ logger = logging.getLogger("rateotu")
 # Method decorated with @transaction.atomic to ensure
 # logic is executed in a single transaction
 @transaction.atomic
-def create_customer_order(customer, total, order_items):
+def create_customer_order(customer, total, order_items, table):
     """
     Creates the order for the given customer instance
     and all order items linked to the order.
@@ -34,13 +35,14 @@ def create_customer_order(customer, total, order_items):
     # Sets a customer instance based on a request user (SEE: views)
     # that will be provided after authenticating trough JWT auth.
     # We cannot trust a client to provide this piece of data!
-    order = Order.objects.create(total=total, customer=customer)
+    order = Order.objects.create(table=table, total=total, customer=customer)
     # Bulk INSERT (1 query), due to performance and speed.
     created_order_items = OrderItem.objects.bulk_create(
         [
             OrderItem(
                 order=order,
                 customer=customer,
+                table=table,
                 item_id=item["id"],
                 price=item["price"],
                 quantity=item["quantity"],
@@ -52,6 +54,8 @@ def create_customer_order(customer, total, order_items):
     return created_order_items
 
 
+# TODO: Add the same logic for the Order model and nest the order items
+# table on the client
 @transaction.atomic
 def bulk_update_order_items_order_status(order_item_ids, order_status):
     """
@@ -66,11 +70,23 @@ def bulk_update_order_items_order_status(order_item_ids, order_status):
     # so that no other process (or thread) can access this qs objects.
     order_items = OrderItem.objects.select_for_update().filter(id__in=order_item_ids)
     ready_order_items = []
-    # Loop over each item and invoke save() on instance.
+
     for order_item in order_items:
+        order = order_item.order
+
         order_item.order_status = order_status
+        # Set order status based on order_item status
+        # (e.g. if only one of the order items is in the 'preparing' status phase,
+        # then the entire order is in that phase)
+        order.order_status = order_status
+
+        if order_status == "served":
+            # Just to simulate the payment process
+            order_item.served_at = timezone.now()
+
         # save() method called on each intance to update (signals are triggerd as well).
         order_item.save()
+        order.save()
 
         if order_item.order_status == "ready":
             ready_order_items.append(order_item)
